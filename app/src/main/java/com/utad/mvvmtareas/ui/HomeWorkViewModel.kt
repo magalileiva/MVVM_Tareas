@@ -17,8 +17,14 @@ data class HomeWorkUiState(
     val info: List<HomeWorkResponse>? = null
 )
 class HomeWorkViewModel: ViewModel() {
+
     private var _userName: MutableLiveData<String> = MutableLiveData(null)
     val userName: LiveData<String> = _userName
+
+    private var _uiState: MutableLiveData<HomeWorkUiState> = MutableLiveData(HomeWorkUiState())
+    val uiState: LiveData<HomeWorkUiState> get() = _uiState
+
+
     fun getUserName(context: Context){
          viewModelScope.launch(Dispatchers.IO){
              DataStoreManager.getData(context).collect{ userName ->
@@ -30,9 +36,17 @@ class HomeWorkViewModel: ViewModel() {
     }
 
     fun getHomeWork(userName: String){
+
+        _uiState.postValue(HomeWorkUiState(isLoading = true))
+
         viewModelScope.launch(Dispatchers.IO){
             val response = SchoolApi.service.getAllTareas(userName, "U-tad")
+            if(response.isSuccessful){
+                _uiState.postValue(HomeWorkUiState(info = response.body()))
 
+            }else{
+                _uiState.postValue(HomeWorkUiState(error = true))
+            }
         }
     }
 }

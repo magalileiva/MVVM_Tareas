@@ -36,7 +36,20 @@ class HomeWorkActivity : AppCompatActivity() {
         viewModel.userName.observe(this){userName ->
             if(userName!=null){
                 //llamamos a la Api
-
+                viewModel.getHomeWork(userName)
+            }
+        }
+        viewModel.uiState.observe(this){ uiState ->
+            if (uiState.info!=null){
+                adapter.submitList(uiState.info)
+            }
+            if (uiState.isLoading){
+                //mostrar carga
+            }else{
+                //ocultar carga
+            }
+            if (uiState.error){
+                // mensaje de error
             }
         }
     }
