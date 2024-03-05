@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MVVM Tareas</string>
+    <string name="et_user_name">Name\n</string>
+    <string name="username">Name</string>
+</resources>
