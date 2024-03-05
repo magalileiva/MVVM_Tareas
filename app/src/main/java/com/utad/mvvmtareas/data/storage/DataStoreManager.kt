@@ -18,7 +18,7 @@ object DataStoreManager {
             editor[userNameKey] = sampleData
         }
     }
-    suspend fun getSampleData (context: Context): Flow<String>{
+    suspend fun getData (context: Context): Flow<String>{
         return context.dataStore.data.map { editor ->
             editor [userNameKey] ?: "No hay datos"
         }
